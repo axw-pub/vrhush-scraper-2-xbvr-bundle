@@ -1,6 +1,6 @@
 const fs = require('fs');
 const moment = require('moment');
-const cachePath = './cache';
+const cachePath = './.cache';
 const bundlesPath = './bundles';
 
 (async () => {
@@ -15,10 +15,8 @@ const bundlesPath = './bundles';
 
   console.info('generating content bundle');
 
-  const timestamp = moment().format();
-
   const bundle = {
-    timestamp,
+    timestamp: moment().format(),
     bundleVersion: '1',
     scenes: fs.readdirSync(cachePath)
       .map(path => fs.readFileSync(`${cachePath}/${path}`))
@@ -43,5 +41,5 @@ const bundlesPath = './bundles';
   };
 
   console.info('writing bundle');
-  fs.writeFileSync(`${bundlesPath}/vrhush-bundle-${timestamp}.json`, JSON.stringify(bundle, null, 2));
+  fs.writeFileSync(`${bundlesPath}/vrhush-bundle-${moment().format('YYYY-MM-DD-hhmmss')}.json`, JSON.stringify(bundle, null, 2));
 })();
