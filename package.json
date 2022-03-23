@@ -1,0 +1,15 @@
+{
+  "name": "vrhush-scraper-2-xbvr-bundle",
+  "version": "1.0.0",
+  "main": "scrape.js",
+  "license": "MIT",
+  "packageManager": "yarn@3.2.0",
+  "dependencies": {
+    "moment": "^2.29.1",
+    "puppeteer": "^13.5.1"
+  },
+  "scripts": {
+    "scrape": "yarn node src/scrape.js",
+    "bundle": "yarn node src/bundle.js"
+  }
+}
