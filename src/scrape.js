@@ -67,8 +67,13 @@ const gotoNextPage = async page => {
         description: await scenePage.$eval('.full-description', description => description.textContent),
         models: await scenePage.$$eval('.latest-scene-subtitle a', models => models.map(model => model.textContent)),
         tags: await scenePage.$$eval('.tag-container > .label-tag', tags => tags.map(tag => tag.textContent)),
-        cover: await scenePage.$eval('deo-video', video => video.getAttribute('cover-image')),
-        images: await scenePage.$$eval('.owl-carousel .owl-item img', images => images.map(img => img.src)),
+        cover: await scenePage.$eval('deo-video', video => {
+          const cover = video.getAttribute('cover-image');
+          return cover && cover.startsWith('//') ? 'https:' + cover : cover;
+        }),
+        images: await scenePage.$$eval('.owl-carousel .owl-item img',
+          images => images.map(img => img.src && img.src.startsWith('//') ? 'https:' + img.src : img.src)
+        ),
         filenames: (await scenePage.$$eval('deo-video > source', sources => sources.map(source => source.src)))
           .map(src => src.match(fileNameRegex))
           .filter(match => match && match.length === 1)
